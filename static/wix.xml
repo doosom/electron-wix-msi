@@ -99,5 +99,9 @@
       <ComponentRef Id="ApplicationShortcut" />
       <ComponentRef Id="DesktopShortcut" />
     </Feature>
+    <!-- Optional Launch app feature -->
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch App" />
+        <Property Id="WixShellExecTarget" Value="[#{{exeComponentID}}]" />
+        <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
   </Product>
 </Wix>

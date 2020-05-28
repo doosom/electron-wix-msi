@@ -94,6 +94,7 @@ export class MSICreator {
   private directories: Array<string> = [];
   private tree: FileFolderTree | undefined;
   private components: Array<Component> = [];
+  private exeComponentID: string = '';
 
   constructor(options: MSICreatorOptions) {
     this.appDirectory = path.normalize(options.appDirectory);
@@ -211,7 +212,8 @@ export class MSICreator {
       '{{ProgramFilesFolder}}': this.arch === 'x86' ? 'ProgramFilesFolder' : 'ProgramFiles64Folder',
       '{{ProcessorArchitecture}}' : this.arch,
       '{{Win64YesNo}}' : this.arch === 'x86' ? 'no' : 'yes',
-      '{{DesktopShortcutGuid}}': uuid()
+      '{{DesktopShortcutGuid}}': uuid(),
+      '{{exeComponentID}}' : this.exeComponentID
     };
 
     const completeTemplate = replaceInString(this.wixTemplate, scaffoldReplacements);
@@ -429,6 +431,10 @@ export class MSICreator {
         '{{ComponentId}}': componentId
       });
 
+      if (file.name.includes(this.exe)) {
+        this.exeComponentID = componentId;
+      }
+      
       return { componentId, xml };
     });
   }
