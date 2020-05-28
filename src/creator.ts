@@ -431,10 +431,6 @@ export class MSICreator {
         '{{ComponentId}}': componentId
       });
 
-      if (file.name.includes(this.exe)) {
-        this.exeComponentID = componentId;
-      }
-      
       return { componentId, xml };
     });
   }
@@ -457,6 +453,10 @@ export class MSICreator {
       '{{SourcePath}}': file.path
     });
 
+    if (file.name.includes(this.exe)) {
+      this.exeComponentID = componentId;
+    }
+    
     return { guid, componentId, xml, file };
   }
 
